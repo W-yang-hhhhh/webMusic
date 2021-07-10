@@ -14,6 +14,13 @@ import RenderSingrs from '../RenderSingers';
 
 import './style.scss';
 class ShowList extends Component {
+  constructor(props){
+    super(props)
+   
+  }
+  componentDidMount(){
+    console.log(this);
+  }
   renderMusicList = () => {
     return this.props.list.map((item, index) => {
       let count = index + 1;
