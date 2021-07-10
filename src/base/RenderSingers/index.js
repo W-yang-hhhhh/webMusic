@@ -12,6 +12,7 @@ class RenderSingers extends Component{
             if(index !== this.props.singers.length-1){
                 return <span key={index}>
                     <span 
+                    key={index}
                     className='highlight'
                     onClick={()=>{this.props.handleGetSingerInfo(item.id)}}
                     >
