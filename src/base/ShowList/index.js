@@ -76,7 +76,7 @@ class ShowList extends Component {
     return (
       <div className='show-list-container'>
          <ul>
-          <If >
+          <If condition={this.props.showTitle} >
             <li className="title">
               <div className="count" />
               <div className="music-name">

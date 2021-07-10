@@ -13,7 +13,7 @@ import './style.scss';
 class MusicList extends Component{
     constructor(props){ 
         super(props);
-        this.state = {
+        this.state = { 
             scrollToTop:false
         }
         this.musicListRef = React.createRef();
@@ -98,7 +98,7 @@ class MusicList extends Component{
                     </div>
                 </If>
                 <p className="description">{description}</p>
-                <div className="conreol">
+                <div className="control">
                     <i className='iconfont icon-play1'></i>
                     <i className={['iconfont', 'icon-folder', findIndex(this.props.collectedPlaylist, musicList) < 0 ? '' : 'collected'].join(' ')}></i>
                 </div>
