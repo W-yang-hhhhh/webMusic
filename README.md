@@ -2,12 +2,12 @@
 
 ## 页面展览
 <p align="center">
-<img src="./assets/img/排行榜.png" width="700">
-<img src="./assets/img/搜索歌曲.png" width="700">
-<img src="./assets/img/歌手详情.png" width="700">
-<img src="./assets/img/推荐歌单.png" width="700"> 
-<img src="./assets/img/专辑歌曲.png" width="700">
-<img src="./assets/img/收藏歌单.png" width="700">
+<img src="./document/img/rank.png" width="700">
+<img src="./document/img/search.png" width="700">
+<img src="./document/img/singer.png" width="700">
+<img src="./document/img/recommand.png" width="700"> 
+<img src="./document/img/collector.png" width="700">
+<img src="./document/img/musiclist.png" width="700">
 </p>
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
