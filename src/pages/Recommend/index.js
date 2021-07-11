@@ -7,7 +7,8 @@ import {formatPlayCount,imageRatio} from '../../common/js/util'
 import {
     getChangeCurrentMusicListAction,
     getChangeShowLoadingAction,
-    getMusicListDetailAction
+    getMusicListDetailAction,
+    getHideAllAction
 } from '../../store/actionCreator';
 import Loding from '../../base/Loading';
 import message from '../../base/Message';
@@ -25,6 +26,8 @@ class Recommend extends Component{
 
 
     componentWillMount () {
+      console.log('推荐页面props:',this.props);
+      this.props.handlehideall()
         // 获取推荐歌单
         this.handleGetRecommendList();
       }
@@ -70,7 +73,7 @@ class Recommend extends Component{
                   >
                       <div
                         className='list-img-container'
-                        onClick={()=>{this.props.handleGetMusicListDetail(item.id);console.log(this.playlists)}}
+                        onClick={()=>{this.props.handleGetMusicListDetail(item.id)}}
                       >
                           <i className='iconfont icon-play'></i>
                           <img className='list-img' src={item.coverImgUrl + imageRatio(153)} alt="" />
@@ -127,6 +130,9 @@ const mapStateToProps = (state) => {
       },
       handleGetMusicListDetail (id) {
         dispatch(getMusicListDetailAction(id));
+      },
+      handlehideall(){
+        dispatch(getHideAllAction())
       }
     };
   };

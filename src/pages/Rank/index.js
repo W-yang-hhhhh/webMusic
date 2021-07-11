@@ -7,7 +7,7 @@ import React, { Component } from 'react'
 import { formatDate, imageRatio } from '../../common/js/util';
 import { getAllRank } from '../../api';
 
-import { getMusicListDetailAction } from '../../store/actionCreator';
+import { getMusicListDetailAction,getHideAllAction } from '../../store/actionCreator';
 import { connect } from 'react-redux';
 import './style.scss'
 
@@ -20,6 +20,7 @@ class Rank extends Component{
     }
 
     componentDidMount(){
+        this.props.handlehideall()
         getAllRank().then((res)=>{
 
             this.setState(()=>({
@@ -77,7 +78,12 @@ const mapStateToProps = (state) => {
     return {
       handleGetMusicListDetail (id) {
         dispatch(getMusicListDetailAction(id));
-      }};
+      },
+      handlehideall(){
+          dispatch(getHideAllAction())
+      }
+    
+    };
   };
 export default connect(
     mapStateToProps,

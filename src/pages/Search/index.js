@@ -6,7 +6,8 @@ import {If} from 'react-if'
 import {
     getAlbumInfoAction, //获取专辑
     getSingerInfoAction, //获取歌手信息
-    getMusicListDetailAction //获取获取音乐列表信息
+    getMusicListDetailAction, //获取获取音乐列表信息
+    getHideAllAction//隐藏所有
   } from '../../store/actionCreator';
 import { getHotSearch, getSearchResult } from '../../api/search';
 import ShowList from '../../base/ShowList';
@@ -381,6 +382,9 @@ const mapDispatchToProps =(dispatch)=>{
         },
         handleGetMusicListDetail(id){
             dispatch(getMusicListDetailAction(id))
+        },
+        handlehideall(){
+            dispatch(getHideAllAction())
         }
     }
 }

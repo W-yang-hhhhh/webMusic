@@ -30,6 +30,9 @@ class MusicList extends Component{
 //         }
 //     }
 //滚动调置于最上面
+componentDidMount(){
+  console.log('歌曲列表props:',this.props);
+}
     componentDidUpdate () {
         if (this.state.scrollToTop) {
           this.musicListRef.scrollTo(0, 0);
@@ -89,12 +92,12 @@ class MusicList extends Component{
                             {formatDate(musicList.publishTime)}
                         </p>
                     </If>
-                    <If condition={
+                    {/* <If condition={
                         typeof musicList.company === 'string' &&
                         musicList.company.length > 0
-                    }>
+                    }> */}
                         <p className='company'>发行: {musicList.company}</p>
-                    </If>
+                    {/* </If> */}
                     </div>
                 </If>
                 <p className="description">{description}</p>
