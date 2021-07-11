@@ -43,7 +43,7 @@ componentDidMount(){
         }
       }
       //处理需要存储的数据
-      handleCollectList = () => {
+    handleCollectList = () => {
         const musicList = this.props.musicList;
     
         // 处理一下需要存储的数据
@@ -94,18 +94,22 @@ componentDidMount(){
                             {formatDate(musicList.publishTime)}
                         </p>
                     </If>
-                    {/* <If condition={
+                    <If condition={
                         typeof musicList.company === 'string' &&
                         musicList.company.length > 0
-                    }> */}
+                    }>
                         <p className='company'>发行: {musicList.company}</p>
-                    {/* </If> */}
+                    </If>
                     </div>
                 </If>
                 <p className="description">{description}</p>
                 <div className="control">
-                    <i className='iconfont icon-play1'></i>
-                    <i className={['iconfont', 'icon-folder', findIndex(this.props.collectedPlaylist, musicList) < 0 ? '' : 'collected'].join(' ')}></i>
+                    <i className='iconfont icon-play1'
+                    onClick={()=>{this.props.changeMusicList(this.props.musicList.tracks)}}
+                    ></i>
+                    <i className={['iconfont', 'icon-folder', findIndex(this.props.collectedPlaylist, musicList) < 0 ? '' : 'collected'].join(' ')}
+                    onClick={()=>{this.handleCollectList() ;}}
+                    ></i>
                 </div>
             </div>
         )
@@ -139,6 +143,7 @@ componentDidMount(){
 const mapStateToProps = (state) => {
  
     return {
+      state,
       musicList: state.musicList,
       showMusicList: state.showMusicList,
       showSingerInfo: state.showSingerInfo,
@@ -149,6 +154,7 @@ const mapStateToProps = (state) => {
   const mapDispatchToProps = (dispatch) => {
     return {
       changeMusicList (value) {
+       
         dispatch(getChangePlayListAction(value));
         dispatch(getChangeCurrentIndex(-1));
         dispatch(playNextMusicAction());

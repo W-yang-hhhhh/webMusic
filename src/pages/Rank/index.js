@@ -32,7 +32,7 @@ class Rank extends Component{
 
     renderList = ()=>{
         const list = this.state.rankList;
-        console.log(list)
+      
         if(!list){
             return null;
         }else{

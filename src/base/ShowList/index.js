@@ -19,7 +19,7 @@ class ShowList extends Component {
    
   }
   componentDidMount(){
-    console.log(this);
+    console.log('歌曲列表props',this.props);
   }
   renderMusicList = () => {
     return this.props.list.map((item, index) => {

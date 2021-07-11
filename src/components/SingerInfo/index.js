@@ -34,7 +34,9 @@ class SingerInfo extends Component{
             }))
         }
     }
-     
+     componentDidMount(){
+         console.log('singerinfo_props',this.props);
+     }
     renderAlbums =()=>{
         const albums =this.state.albums;
         if(!albums){
@@ -53,7 +55,7 @@ class SingerInfo extends Component{
         })
     }
     render(){
-        console.log(this.props)
+        
         if (this.props.singerInfo === null) {
             return null;
         }

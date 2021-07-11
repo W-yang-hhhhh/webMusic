@@ -219,17 +219,21 @@ export const getChangePlayListAction = (value) => ({
     value
   });
 
-
+// 更新当前歌曲的歌词
   function getCurrentMusicLyric () {
     return (dispatch, getState) => {
+     
       const state = JSON.parse(JSON.stringify(getState()));
-      const currentMusic = state.currentMusic;
+      const currentMusic = state.currentMusic ?  state.currentMusic :state.playList[0];
+
+      console.log(state);
       const id = currentMusic.id;
       // 清空之前的歌词
       dispatch(changeCurrentMusicLyric(null));
   
       // 获取新的歌词
       getMusicLyric(id).then(({ data }) => {
+        console.log(data)
         dispatch(changeCurrentMusicLyric(data));
       });
     };
@@ -250,15 +254,16 @@ export const getChangePlayListAction = (value) => ({
  * @param {*} loadCacheMusic 加载缓存音乐
  */
   export const getChangeCurrentMusic =(value,loadCacheMusic = false)=>{
-    console.log('action',value)
+    console.log(value,loadCacheMusic);
       return (dispatch,getState)=>{
           const state = getState();
           const list = state.playList;
+         
           //从歌曲列表中寻找当前歌曲的index
           const index  = findIndex(list,value);
           //点击的歌曲是正在播放的歌曲 直接返回
           if(index == state.currentIndex && !loadCacheMusic){
-            console.log(index,state.currentIndex,loadCacheMusic);
+        
               return ;
           }
           
@@ -273,10 +278,10 @@ export const getChangePlayListAction = (value) => ({
               dispatch(getChangePlayListAction(list));
               dispatch(getChangeCurrentIndex(list.length - 1));
           }
-          console.log('进行处理')
+       
           dispatch(changeCurrentMusicAction(value));//当前播放歌曲的信息处理
           dispatch(getCurrentMusicLyric());//歌词处理
-
+          
           getMusicUrl(value.id).then(({data:{data}})=>{
               if(!data[0].url){//无该歌曲版权处理
                   message.info('歌曲暂无版权，我帮你换首歌把');
@@ -314,7 +319,7 @@ export const getChangePlayListAction = (value) => ({
       return (dispatch)=>{
           let collector = null;
           $db.find({name:'collecter'},(err,res)=>{
-              console.log(res)
+            
               collector = res[0];
               const index = findIndex(collector.foundList[0].tracks,value);
               if(index < 0){
@@ -355,7 +360,8 @@ export const playPrevMusicAction = ()=>{
 export const playNextMusicAction = ()=>{
   return (dispatch,getState) =>{
     const state = getState();
-    let {currentindex} =state;
+    let {currentIndex} =state;
+    console.log(currentIndex);
     const {playList} =state;
     const length =playList.length;
     if(length ===0 ||length ===1){
@@ -363,14 +369,17 @@ export const playNextMusicAction = ()=>{
     }
     if(state.playMode ===PLAY_MODE_TYPES.RANDOM_PLAY){
       //如果是列表随机播放 直接返回一个不同的下标就可以了
-      currentindex =random(currentindex.length)
-    }else if(currentindex>0){
-      currentindex++;
+      console.log(1);
+      currentIndex =random(playList.length)
+    }else if(currentIndex>0 && currentIndex<=playList.length-2){
+      console.log(2);
+      currentIndex++;
     }else{
-      currentindex = 0;
+      console.log(3);
+      currentIndex = 0;
     }
-    dispatch(getChangeCurrentMusic(playList[currentindex]));
-    dispatch(getChangeCurrentIndex(currentindex));
+    dispatch(getChangeCurrentMusic(playList[currentIndex]));
+    dispatch(getChangeCurrentIndex(currentIndex));
   }
 }
 /**
@@ -407,7 +416,8 @@ export const getToggleCollectPlaylist =(list)=>{
     dispatch(getChangeVolumeAction(cache.volume));
     dispatch(getChangeCurrentIndex(cache.currentIndex));
     if (cache.currentIndex !== -1 && cache.playList.length !== 0) {
-      dispatch(getChangeCurrentMusic(cache.playList[cache.currentIndex], true));
+      console.log(cache,cache.playList[0]);
+      dispatch(getChangeCurrentMusic(cache.playList[0], true));
     }
   };
 };

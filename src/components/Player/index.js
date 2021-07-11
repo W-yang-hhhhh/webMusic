@@ -25,7 +25,7 @@ import { PLAY_MODE_TYPES } from '../../common/js/config';
 import ProgressBar from '../../base/ProgressBar';
 import PlayTime from '../../base/PlayTime';
 // import PlayList from '../../base/PlayList';
-// import MusicDetail from '../../base/MusicDetail';
+import MusicDetail from '../../base/MusicDetail';
 import RenderSingers from '../../base/RenderSingers';
 import './style.scss'
 import Message from '../../base/Message/message';
@@ -47,19 +47,20 @@ class Player extends Component {
             move:false,
             percent:0,
             showPlayList:false,
-            
+            // audio:React.createRef()
         }
-        this.audio=React.createRef()
-        
+        this.audio=React.createRef();
+        this.musicDetail =React.createRef()
          
     }
         
     static getDerivedStateFromProps ({playing},state){
-      
+    
       if(!playing){
-
-        // state.audio.current.pause()
+        
+        return {};
       }
+      return {}
     }
     handleUpdateTime=(e)=>{
       if(this.state.move){
@@ -104,9 +105,9 @@ class Player extends Component {
 
     //改变播放状态
     handleChangePlayingStatus(status){
-      // if(this.props.playList.length==0){
-      //   return ;
-      // }
+      if(this.props.playList.length==0){
+        return ;
+      }
       
       this.props.changePlayingStatus(status);
       const audio =this.audio.current;
@@ -117,27 +118,38 @@ class Player extends Component {
         audio.pause()
       }
     }
-    percentChange=(precent)=>{
-
+    percentChange=(percent)=>{
+      if(this.props.showMusicDetail){
+        // const currentTime = this.state.duration * percent;
+        // this.musicDetail.seek(currentTime)//!!!!!!!!!
+    }
+      this.setState(()=>({
+        percent,
+        move:true
+      }))
     }
     //歌曲进度控制 底部play显示
     percentChangeEnd =(percent)=>{
-      const currentTime = this.state.duration *percent;
-      this.audio.current.currentTime = currentTime;
-      if(this.props.showMusicDetail){
-          this.musicDetail.seek(currentTime)//!!!!!!!!!
-      }
+      // const currentTime = this.state.duration *percent;
+      // this.audio.current.currentTime = currentTime;
+      // if(this.props.showMusicDetail){
+      //     this.musicDetail.seek(currentTime)//!!!!!!!!!
+      // }
       this.setState(()=>{
         return{
-          currentTime,
+          // currentTime,
           percent,
           move:false,
 
         }
       })
     }
-    
+    handleShowMusicDetial = () => {
+      this.props.toggleShowMusicDetail();
+      this.musicDetail.current.displayMusicDetailGetMusicTime(this.state.currentTime);
+    }
     componentDidMount=()=>{
+      console.log('player_props',this.props); 
       //初始化第一首得musicurl
       let  {currentMusic} = this.props;
       if(!currentMusic.musicUrl){
@@ -299,7 +311,7 @@ class Player extends Component {
                 <div className="player-background"></div>
               </div>
             </If>
-            {/* <MusicDetail ref="musicDetail" /> */}
+            <MusicDetail ref={this.musicDetail} />
             <div
               className={`${
                 this.state.showPlayList ? '' : 'hide-play-list'

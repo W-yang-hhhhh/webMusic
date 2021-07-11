@@ -22,18 +22,67 @@ class ProgressBar extends Component{
             controelBarOffestLeft:null,//进度点距离进度条左边的距离
 
         }
+        this.controlBar = React.createRef();
+
     }
 
+ 
+    progressMouseDown=()=>{
+   
+        document.addEventListener('mousemove',this.progressMouseMove,false);
+        document.addEventListener('mouseup',this.progressMouseUp,false)
+    }
+
+    progressMouseMove=(e)=>{
+        // let controlBar = this.controlBar.current
+     
+        let percent = 0
+        // (e.clientX -this.state.controlBarOffestLeft) / this.controlBar.current.clientWidth;
+        if(percent<0){
+            percent = 0
+        }else if(percent>1){
+            percent = 1;
+        }
+        //移动dom
+        this.props.percentChange(percent);
+    }
+
+    progressMouseUp =(e)=>{
+        let controlBar = this.controlBar.current
+        let percent =
+        (e.clientX - this.state.controlBarOffestLeft) /
+        controlBar.clientWidth;
+
+        if (percent < 0) {
+        percent = 0;
+        } else if (percent > 1) {
+        percent = 1;
+        }
+        this.props.percentChangeEnd(percent);
+    }
+    clickToChangePercent = (e) => {
+        let controlBar = this.controlBar.current
+        let percent =
+          (e.clientX - this.state.controlBarOffestLeft) /
+          controlBar.clientWidth;
+    
+        if (percent < 0) {
+          percent = 0;
+        } else if (percent > 1) {
+          percent = 1;
+        }
+        this.props.percentChangeEnd(percent);
+      };
     render(){
         return (
-            <div className="progress-bar">
+            <div className="progress-bar" onClick={this.clickToChangePercent}>
                 <div className="add-click-scope">
-                    <div className="control-bar">
+                    <div className="control-bar"  ref ={this.controlBar}>
                         <div 
                         className="elapsed-bar" 
                         style={{ width: this.props.percent * 100 + '%' }}
                         >
-                            <span className="btn"></span>
+                            <span className="btn" onMouseDown={this.progressMouseDown}></span>
                         </div>
                     </div>
                 </div>
@@ -41,6 +90,9 @@ class ProgressBar extends Component{
         )
     }
 }
+
+
+
 
 
 export default ProgressBar;

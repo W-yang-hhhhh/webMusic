@@ -68,12 +68,13 @@ import './App.scss';
           }
         );
       } else {
+   
         this.props.handleLoadCache(res[0].cacheValue);
       }
     });
-    //  this.setState({
-    //   redirect :false
-    //  })
+     this.setState({
+      redirect :false
+     })
    }
 
 

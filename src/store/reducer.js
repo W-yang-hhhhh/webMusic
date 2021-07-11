@@ -304,7 +304,7 @@ const defaultState = {
   function cacheLastUseInfo (obj = {}) {
     let cache = null, needUpdate = false;
     $db.find({ name: 'cache' }, (err, res) => {
-      console.log('res',res)
+     
       cache = res[0];
       if (obj.volume !== undefined) {
         cache.cacheValue.volume = obj.volume;

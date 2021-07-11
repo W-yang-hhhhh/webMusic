@@ -13,7 +13,7 @@ class Header extends Component{
         super(props)
     }
     isActive = (pathname)=>{
-        // console.log(this.props)
+      
         if(this.props.location.pathname === pathname){
             return 'active'
         }else{

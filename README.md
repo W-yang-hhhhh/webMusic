@@ -1,4 +1,14 @@
-# Getting Started with Create React App
+# 基于网易云api的音乐网站
+
+## 页面展览
+<p align="center">
+<img src="./assets/img/排行榜.png" width="700">
+<img src="./assets/img/搜索歌曲.png" width="700">
+<img src="./assets/img/歌手详情.png" width="700">
+<img src="./assets/img/推荐歌单.png" width="700"> 
+<img src="./assets/img/专辑歌曲.png" width="700">
+<img src="./assets/img/收藏歌单.png" width="700">
+</p>
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -33,4 +43,18 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ## 支持功能
  
-1. [y] 
+- [x] 推荐歌单
+- [x] 排行榜
+- [x] 歌单展示
+- [x] 歌曲详情
+- [x] 歌词展示
+- [x] 歌手详情
+- [x] 播放列表
+- [x] 喜欢歌曲
+- [x] 收藏歌单
+- [x] 播放模式切换
+- [x] 收藏歌单
+- [x] 搜索功能
+- [x] 进度条展示
+- [x] 进度跳转
+- [x] 音量控制

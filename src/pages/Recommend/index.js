@@ -37,7 +37,9 @@ class Recommend extends Component{
  * @param {*} updateTime 更新的时间
  */
       handleGetRecommendList=(updateTime =null)=>{
+       
           getRecommendList(updateTime).then(({data})=>{
+          
               if(data.playlists && data.playlists.length===0){
                 message.info('已经到底啦~');
                 this.setState(()=>({
@@ -56,11 +58,18 @@ class Recommend extends Component{
 
 
       handleUserScroll = ()=>{
-        
-        const recommendList =this.recommendList;
+          const recommendList =this.recommendList.current;
      
-        const scrollAtBottom = recommendList.scrollHeight -(recommendList.scrollTop + recommendList.clientHeight)
-        
+        const scrollAtBottom = recommendList.scrollHeight -(recommendList.scrollTop + recommendList.clientHeight)<=0
+            if(scrollAtBottom && !this.state.gotRecommend){
+          this.setState(()=>({
+            gotRecommend: true,
+            showLoding: true
+          }),()=>{
+            const index = this.state.recommendList.length - 1;
+            this.handleGetRecommendList(this.state.recommendList[index].updateTime);
+          })
+        }
       }
 
 
