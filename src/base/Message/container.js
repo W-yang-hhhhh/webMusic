@@ -11,7 +11,7 @@ export default class Container extends Component{
     }
 
     componentDidMount(){
-        this.props.onref(this);
+      console.log(this.props);
     }
 
     addMessage =(content)=>{

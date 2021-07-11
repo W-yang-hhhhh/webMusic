@@ -9,9 +9,8 @@ div.setAttribute('class','message-container');
 
 function create(type){
     return (content)=>{
-        this.context.addMessage(content)
         if(type =='info'){
-            ReactDom.render(<Container onref = {c=>this.context = c}/>,div).addMessage(content)
+            ReactDom.render(<Container/>,div).addMessage(content)
         }
     }
 }

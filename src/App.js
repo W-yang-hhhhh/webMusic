@@ -3,10 +3,10 @@
  import {connect} from 'react-redux'
  import PropTypes from 'prop-types'
  import $db from './data'
-//  import {
-//   getChangeCollectorAction,
-//   getLoadCacheAction
-// } from './store/actionCreator';
+ import {
+  getChangeCollectorAction,
+  getLoadCacheAction
+} from './store/actionCreator';
  // eslint-disable-next-line
 import Header from './components/Header'
 import Player from './components/Player'
@@ -45,17 +45,40 @@ import './App.scss';
             }],
             collectList:[]
           },(err,res)=>{
+            this.props.handleChangeCollector(res[0]);
             //dispatch  改变redux collector的值
           }
         )
       }else{
+        this.props.handleChangeCollector(res[0]);
         //dispatch  改变redux collector的值
       }
-    })
-     this.setState({
-      redirect :false
-     })
+    });
+    // 初始化使用信息
+    $db.find({ name: 'cache'}, (err, res) => {
+      if (res.length === 0) {
+        $db.insert(
+          {
+            name: 'cache',
+            cacheValue: {
+              playList: [],
+              currentIndex: -1,
+              volume: 0.35
+            }
+          }
+        );
+      } else {
+        this.props.handleLoadCache(res[0].cacheValue);
+      }
+    });
+    //  this.setState({
+    //   redirect :false
+    //  })
    }
+
+
+
+
 
    render(){
       return (
@@ -78,17 +101,23 @@ import './App.scss';
 
    }
  }
-//  const mapDispatchToProps = (dispatch) => {
-//   return {
-//     handleChangeCollector (value) {
-//       dispatch(getChangeCollectorAction(value));
-//     },
-//     handleLoadCache (value) {
-//       dispatch(getLoadCacheAction(value));
-//     }
-//   };
-// };
+
+ const mapStateToProps = (state) => {
+  return {
+    showLoading: state.showLoading
+  };
+};
+ const mapDispatchToProps = (dispatch) => {
+  return {
+    handleChangeCollector (value) {
+      dispatch(getChangeCollectorAction(value));
+    },
+    handleLoadCache (value) {
+      dispatch(getLoadCacheAction(value));
+    }
+  };
+};
  export default connect(
-  // mapStateToProps,
-  // mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(App);

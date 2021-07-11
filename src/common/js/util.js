@@ -42,7 +42,7 @@ export function findIndex (allList, list) {
       return item.id === list.id;
     });
   }
-  return 0
+  return -2
    
   }
 

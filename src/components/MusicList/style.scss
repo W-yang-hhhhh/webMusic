@@ -5,7 +5,20 @@
  .hide-music-list-container{
      display: none;
  }
- 
+ .musiclist_cha{
+     display: inline-block;
+     z-index: 3;
+     position: absolute;
+     right: 0;
+     cursor: pointer;
+     
+     i{
+        color:  $color-text-gray;
+        &:hover{
+            color: $color-theme;
+        }
+     }
+ }
  .music-list-container{
      position: fixed;
      top: $header-height;

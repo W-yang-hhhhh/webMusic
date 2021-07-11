@@ -250,6 +250,7 @@ export const getChangePlayListAction = (value) => ({
  * @param {*} loadCacheMusic 加载缓存音乐
  */
   export const getChangeCurrentMusic =(value,loadCacheMusic = false)=>{
+    console.log('action',value)
       return (dispatch,getState)=>{
           const state = getState();
           const list = state.playList;
@@ -257,8 +258,10 @@ export const getChangePlayListAction = (value) => ({
           const index  = findIndex(list,value);
           //点击的歌曲是正在播放的歌曲 直接返回
           if(index == state.currentIndex && !loadCacheMusic){
+            console.log(index,state.currentIndex,loadCacheMusic);
               return ;
           }
+          
           if(index>0 && index<(list && list.length)){
               //如果 点击歌曲不是正在播放的歌曲 则修改currentIndex
               dispatch(getChangeCurrentIndex(index))
@@ -270,6 +273,7 @@ export const getChangePlayListAction = (value) => ({
               dispatch(getChangePlayListAction(list));
               dispatch(getChangeCurrentIndex(list.length - 1));
           }
+          console.log('进行处理')
           dispatch(changeCurrentMusicAction(value));//当前播放歌曲的信息处理
           dispatch(getCurrentMusicLyric());//歌词处理
 
@@ -393,7 +397,20 @@ export const getToggleCollectPlaylist =(list)=>{
     })
   }
 }
-
+/**
+ * 加载缓存信息
+ */
+ export const getLoadCacheAction = (cache) => {
+   console.log('缓存信息',cache)
+  return (dispatch) => {
+    dispatch(getChangePlayListAction(cache.playList));
+    dispatch(getChangeVolumeAction(cache.volume));
+    dispatch(getChangeCurrentIndex(cache.currentIndex));
+    if (cache.currentIndex !== -1 && cache.playList.length !== 0) {
+      dispatch(getChangeCurrentMusic(cache.playList[cache.currentIndex], true));
+    }
+  };
+};
 function formatAlbumTracks (list) {
   return list.map((item) => {
     const singers = item.ar.map((item) => {

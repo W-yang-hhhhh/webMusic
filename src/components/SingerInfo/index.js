@@ -65,7 +65,7 @@ class SingerInfo extends Component{
            ref ={this.singerInfo}
            >
                <span className="hide-singer-info-btn"
-                onClick={this.props.getHideSingerInfo}
+                onClick={this.props.hideSingerInfo}
                >
                    <i className="iconfont icon-cha"/>
                    

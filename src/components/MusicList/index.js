@@ -6,7 +6,8 @@ import {
     getChangePlayListAction,
     getChangeCurrentIndex,
     playNextMusicAction,
-    getToggleCollectPlaylist
+    getToggleCollectPlaylist,
+    getHideMusicListAction
   } from '../../store/actionCreator';
 import ShowList from '../../base/ShowList'
 import './style.scss';
@@ -77,6 +78,7 @@ componentDidMount(){
                 <div className='list-img'>
                 <img src={musicList.coverImgUrl + imageRatio(200)} alt="pic" />
                 </div>
+              
                 <p className='name'>{musicList.name}</p>
                 <If condition={musicList.type === '专辑'}>
                    <div className="album-info">
@@ -120,6 +122,10 @@ componentDidMount(){
             }
             ref={this.musicListRef}
             >
+                <span className='musiclist_cha'
+                onClick={this.props.hideMusiclist}>
+                <i className="iconfont icon-cha"/>
+                </span>
                 {this.renderListInfo()}
                 <ShowList
                 className="show-list-container"
@@ -149,6 +155,9 @@ const mapStateToProps = (state) => {
       },
       handleToggleCollectPlaylist (list) {
         dispatch(getToggleCollectPlaylist(list));
+      },
+      hideMusiclist(){
+        dispatch(getHideMusicListAction())
       }
     };
   };

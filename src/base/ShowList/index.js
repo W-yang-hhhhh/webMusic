@@ -33,7 +33,7 @@ class ShowList extends Component {
           <div className="music-name">
             <span
               className="highlight"
-              onClick={() => this.props.handleChangeCurrentMusic(item)}
+              onClick={() => {this.props.handleChangeCurrentMusic(item); console.log(this.props.state); ; }}
             >
               {item.musicName}
             </span>
@@ -111,6 +111,7 @@ ShowList.defaultProps = {
 
 const mapStateToProps = (state) => {
   return {
+    state,
     playList: state.playList,
     likesList: state.collector ? state.collector.foundList[0].tracks : null
   };
@@ -120,6 +121,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     handleChangeCurrentMusic (item) {
       dispatch(getChangeCurrentMusic(item));
+    
     },
     handleGetAlbumInfo (albumId) {
       dispatch(getAlbumInfoAction(albumId));
