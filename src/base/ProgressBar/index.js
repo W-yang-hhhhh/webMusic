@@ -16,19 +16,20 @@ import './style.scss'
 class ProgressBar extends Component{
     constructor(props){
         super(props)
-
         this.state  ={
             mouseDown:false,
-            controelBarOffestLeft:null,//进度点距离进度条左边的距离
-
+            controlBarOffestLeft:null,//进度点距离进度条左边的距离
         }
         this.controlBar = React.createRef();
 
     }
 
- 
+    componentDidMount(){
+        this.setState(()=>({
+            controlBarOffestLeft:offset(this.controlBar.current,'left')
+        }))
+    }
     progressMouseDown=()=>{
-   
         document.addEventListener('mousemove',this.progressMouseMove,false);
         document.addEventListener('mouseup',this.progressMouseUp,false)
     }
@@ -36,36 +37,42 @@ class ProgressBar extends Component{
     progressMouseMove=(e)=>{
         // let controlBar = this.controlBar.current
      
-        let percent = 0
-        // (e.clientX -this.state.controlBarOffestLeft) / this.controlBar.current.clientWidth;
+        let percent = 
+        (e.clientX -this.state.controlBarOffestLeft) / this.controlBar.current.clientWidth;
         if(percent<0){
             percent = 0
         }else if(percent>1){
             percent = 1;
         }
+        console.log('move',percent)
         //移动dom
         this.props.percentChange(percent);
     }
 
     progressMouseUp =(e)=>{
+        document.removeEventListener('mousemove', this.progressMouseMove, false);
+        document.removeEventListener('mouseup', this.progressMouseUp, false);
+    
         let controlBar = this.controlBar.current
         let percent =
         (e.clientX - this.state.controlBarOffestLeft) /
         controlBar.clientWidth;
-
+        console.log('up',percent)
         if (percent < 0) {
         percent = 0;
         } else if (percent > 1) {
         percent = 1;
         }
+        console.log('up',percent);
         this.props.percentChangeEnd(percent);
     }
     clickToChangePercent = (e) => {
-        let controlBar = this.controlBar.current
+        let controlBar = this.controlBar.current;
+        console.log(e.clientX,controlBar.clientWidth, this.state.controlBarOffestLeft)
         let percent =
           (e.clientX - this.state.controlBarOffestLeft) /
           controlBar.clientWidth;
-    
+        console.log('click',percent)
         if (percent < 0) {
           percent = 0;
         } else if (percent > 1) {
@@ -96,3 +103,20 @@ class ProgressBar extends Component{
 
 
 export default ProgressBar;
+
+function offset (obj, direction) {
+ 
+    // 将top,left首字母大写,并拼接成 offsetTop,offsetLeft
+    const offsetDir =
+      'offset' + direction[0].toUpperCase() + direction.substring(1);
+  
+    let realNum = obj[offsetDir];
+    let positionParent = obj.offsetParent; // 获取上一级定位元素对象
+  
+    while (positionParent != null) {
+      realNum += positionParent[offsetDir];
+      positionParent = positionParent.offsetParent;
+    }
+ 
+    return realNum;
+  }

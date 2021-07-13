@@ -34,7 +34,7 @@ class RenderSingers extends Component{
         })
     }
     componentDidMount(){
-        console.log(this.props);
+        console.log('renderSinger',this.props);
     }
 
 

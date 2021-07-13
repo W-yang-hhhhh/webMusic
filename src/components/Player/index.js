@@ -24,12 +24,12 @@ import { findIndex, imageRatio } from '../../common/js/util';
 import { PLAY_MODE_TYPES } from '../../common/js/config';
 import ProgressBar from '../../base/ProgressBar';
 import PlayTime from '../../base/PlayTime';
-// import PlayList from '../../base/PlayList';
+import PlayList from '../../base/PlayList';
 import MusicDetail from '../../base/MusicDetail';
 import RenderSingers from '../../base/RenderSingers';
 import './style.scss'
 import Message from '../../base/Message/message';
-
+ 
 const DEFAULT_TIME = 0;
 const PLAYING_STATUS = {
   playing: true,
@@ -51,17 +51,12 @@ class Player extends Component {
         }
         this.audio=React.createRef();
         this.musicDetail =React.createRef()
-         
+        this.playList = React.createRef();
     }
         
-    static getDerivedStateFromProps ({playing},state){
-    
-      if(!playing){
-        
-        return {};
-      }
-      return {}
-    }
+    // static getDerivedStateFromProps (props,state){
+     
+    // }
     handleUpdateTime=(e)=>{
       if(this.state.move){
         return ;
@@ -80,27 +75,30 @@ class Player extends Component {
       })
     }
     //改变音量 props.volume
-    handleChangeVolume = (type)=>{
-      if(type ===VOLUME_UP){
-        if(this.props.volume===1){
-          return ;
-        }else{
-          const volume = this.props.volume +0.05 > 1 ? 1:this.props.volume + 0.05;
-          this.volumeChange(volume)
-        }
-      }else{
-        if(this.props.volume ===0){
-          return ;
-        }else{
-          const volume =this.props.volume -0.05<0 ? 0:this.props.volume;
-          this.volumeChange(volume)
-        }
-      }
-    }
+    // handleChangeVolume = (type)=>{
+  
+    //   if(type ===VOLUME_UP){
+    //     if(this.props.volume===1){
+    //       return ;
+    //     }else{
+    //       const volume = this.props.volume +0.05 > 1 ? 1:this.props.volume + 0.05;
+    //       this.volumeChange(volume)
+    //     }
+    //   }else{
+    //     if(this.props.volume ===0){
+    //       return ;
+    //     }else{
+    //       const volume =this.props.volume -0.05<0 ? 0:this.props.volume;
+    //       this.volumeChange(volume)
+    //     }
+    //   }
+    // }
     //音量控制
     volumeChange = (percent)=>{
+      // console.log(percent)
+      // console.log(this.audio.current.volume)
           this.audio.current.volume = percent;
-
+          this.props.handleChangeVolume(percent);
     }
 
     //改变播放状态
@@ -120,7 +118,7 @@ class Player extends Component {
     }
     percentChange=(percent)=>{
       if(this.props.showMusicDetail){
-        // const currentTime = this.state.duration * percent;
+        const currentTime = this.state.duration * percent;
         // this.musicDetail.seek(currentTime)//!!!!!!!!!
     }
       this.setState(()=>({
@@ -130,14 +128,14 @@ class Player extends Component {
     }
     //歌曲进度控制 底部play显示
     percentChangeEnd =(percent)=>{
-      // const currentTime = this.state.duration *percent;
-      // this.audio.current.currentTime = currentTime;
-      // if(this.props.showMusicDetail){
-      //     this.musicDetail.seek(currentTime)//!!!!!!!!!
-      // }
+      const currentTime = this.state.duration *percent;
+      this.audio.current.currentTime = currentTime;
+      if(this.props.showMusicDetail){
+          // this.musicDetail.seek(currentTime)//!!!!!!!!!
+      }
       this.setState(()=>{
         return{
-          // currentTime,
+          currentTime,
           percent,
           move:false,
 
@@ -146,6 +144,7 @@ class Player extends Component {
     }
     handleShowMusicDetial = () => {
       this.props.toggleShowMusicDetail();
+ 
       this.musicDetail.current.displayMusicDetailGetMusicTime(this.state.currentTime);
     }
     componentDidMount=()=>{
@@ -164,6 +163,26 @@ class Player extends Component {
       }
       // this.volumeChange();
     }
+
+    handleShowPlayList = () => {
+      console.log(this.state);
+      this.setState((pervState) => {
+       
+       return ({
+          showPlayList: !pervState.showPlayList
+        })
+      }, () => {
+        this.playList.current.scrollToCurrentMusic();
+      });
+      // if (!this.state.showPlayList) {
+      //   document.removeEventListener('click', this.handleShowPlayList,false);
+      //       } else {
+      //         document.addEventListener('click', this.handleShowPlayList,true);
+      //  s}
+  
+     
+      // console.log(this.state);
+    };
     renderPlayerControl = () => {
         return (
           <div className="player-control-container">
@@ -317,7 +336,7 @@ class Player extends Component {
                 this.state.showPlayList ? '' : 'hide-play-list'
               } play-list-container`}
             >
-              {/* <PlayList ref="playList" showPlayList={this.state.showPlayList}/> */}
+              <PlayList ref={this.playList} showPlayList={this.state.showPlayList}/>
             </div>
             <audio
               autoPlay
@@ -335,6 +354,7 @@ class Player extends Component {
 
 const mapStateToProps = (state)=>{
   return{
+    state,
     playList:state.playList,
     currentMusic:state.currentMusic,
     playing:state.playing,
@@ -370,7 +390,7 @@ const mapDispatchToProps = (dispatch)=>{
     handleHideAll(){
       dispatch(getHideAllAction())
     },
-    handleChagneVolume(value){
+    handleChangeVolume(value){
       dispatch(getChangeVolumeAction(value))
     }
   }
@@ -378,6 +398,8 @@ const mapDispatchToProps = (dispatch)=>{
 export default withRouter(
   connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
+    null,
+    { forwardRef: true }
   )(Player)
 );

@@ -33,7 +33,7 @@ class ShowList extends Component {
           <div className="music-name">
             <span
               className="highlight"
-              onClick={() => {this.props.handleChangeCurrentMusic(item); console.log(this.props.state); ; }}
+              onClick={() => {this.props.handleChangeCurrentMusic(item);  }}
             >
               {item.musicName}
             </span>

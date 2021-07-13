@@ -421,6 +421,39 @@ export const getToggleCollectPlaylist =(list)=>{
     }
   };
 };
+
+/**
+ * 删除音乐
+ * @param {*} item 
+ * @returns 
+ */
+
+export const getDeleteMusicAction = (item) => {
+  return (dispatch, getState) => {
+    const state = getState();
+    let { currentIndex } = JSON.parse(JSON.stringify(state));
+    const { playList } = JSON.parse(JSON.stringify(state));
+    const index = findIndex(playList, item);
+    playList.splice(index, 1);
+    if (index < currentIndex) {
+      currentIndex--;
+      dispatch(getChangeCurrentIndex(currentIndex));
+    } else if (index === currentIndex) {
+      // 先播放下一首
+      dispatch(playNextMusicAction());
+      // 然后将 currentIndex 修改回来
+      dispatch(getChangeCurrentIndex(currentIndex));
+    }
+    // 当 playList 已经没有的时候，删除掉当前音乐的 url
+    // 音乐就会暂停播放
+    if (playList.length === 0) {
+      const { currentMusic } = JSON.parse(JSON.stringify(state));
+      currentMusic.musicUrl = '';
+      dispatch(changeCurrentMusicAction(currentMusic));
+    }
+    dispatch(getChangePlayListAction(playList));
+  };
+};
 function formatAlbumTracks (list) {
   return list.map((item) => {
     const singers = item.ar.map((item) => {
