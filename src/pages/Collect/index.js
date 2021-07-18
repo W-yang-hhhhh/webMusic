@@ -34,7 +34,7 @@ class Collect extends Component{
       console.log('收藏夹props',this.props);
     }
     handleChangeCurrentList = (list, type) => {
-        this.pageCollect.scrollTo(0, 0);
+        this.pageCollect.current.scrollTo(0, 0);
         this.setState(() => ({
           currentList: list,
           listType: type
@@ -105,6 +105,13 @@ class Collect extends Component{
             );
           });
     }
+    renderFoundListImg = (tracks) => {
+      for (let i = 0; i < tracks.length; i++) {
+        if (tracks[i].imgUrl) {
+          return <img src={tracks[i].imgUrl + imageRatio(153)} alt="歌单图片" />;
+        }
+      }
+    };
     renderCurrentList = ()=>{
         const list = this.state.currentList;
         if(!list){
@@ -121,7 +128,7 @@ class Collect extends Component{
                             <Else>
                                 <div className="found-list">
                                 <div className="filter" />
-                                {/* {this.renderFoundListImg(list.tracks)} */}
+                                {this.renderFoundListImg(list.tracks)}
                                 <i className="iconfont icon-will-love" />
                                 </div>
                             </Else>

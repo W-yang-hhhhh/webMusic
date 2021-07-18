@@ -35,6 +35,7 @@ import './App.scss';
    componentDidMount(){
     //  初始化收藏夹
     $db.find({name:'collector'},(err,res)=>{
+      console.log('缓存收藏夹',res)
       if(res.length===0){
         $db.insert(
           {
@@ -56,6 +57,7 @@ import './App.scss';
     });
     // 初始化使用信息
     $db.find({ name: 'cache'}, (err, res) => {
+      console.log('使用缓存信息',res[0].cacheValue)
       if (res.length === 0) {
         $db.insert(
           {

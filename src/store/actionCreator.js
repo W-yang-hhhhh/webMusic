@@ -338,30 +338,32 @@ export const getChangePlayListAction = (value) => ({
 export const playPrevMusicAction = ()=>{
   return (dispatch,getState) =>{
     const state = getState();
-    let {currentindex} =state;
+    let {currentIndex} =state;
     const {playList} =state;
     const length =playList.length;
+    console.log('prev',state)
     if(length ===0 ||length ===1){
       return ;
     }
     if(state.playMode ===PLAY_MODE_TYPES.RANDOM_PLAY){
       //如果是列表随机播放 直接返回一个不同的下标就可以了
-      currentindex =random(currentindex.length)
-    }else if(currentindex>0){
-      currentindex--;
+      currentIndex =random(currentIndex.length)
+    }else if(currentIndex>0){
+      currentIndex--;
     }else{
-      currentindex = length-1;
+      currentIndex = length-1;
     }
-    dispatch(getChangeCurrentMusic(playList[currentindex]));
-    dispatch(getChangeCurrentIndex(currentindex));
+    dispatch(getChangeCurrentMusic(playList[currentIndex]));
+    dispatch(getChangeCurrentIndex(currentIndex));
   }
 }
 //播放下一首歌
 export const playNextMusicAction = ()=>{
   return (dispatch,getState) =>{
     const state = getState();
+    console.log(state)
     let {currentIndex} =state;
-    console.log(currentIndex);
+    
     const {playList} =state;
     const length =playList.length;
     if(length ===0 ||length ===1){
@@ -371,7 +373,7 @@ export const playNextMusicAction = ()=>{
       //如果是列表随机播放 直接返回一个不同的下标就可以了
       console.log(1);
       currentIndex =random(playList.length)
-    }else if(currentIndex>0 && currentIndex<=playList.length-2){
+    }else if(currentIndex>=0 && currentIndex<=playList.length-2){
       console.log(2);
       currentIndex++;
     }else{
@@ -410,7 +412,7 @@ export const getToggleCollectPlaylist =(list)=>{
  * 加载缓存信息
  */
  export const getLoadCacheAction = (cache) => {
-   console.log('缓存信息',cache)
+   console.log('加载缓存信息',cache)
   return (dispatch) => {
     dispatch(getChangePlayListAction(cache.playList));
     dispatch(getChangeVolumeAction(cache.volume));

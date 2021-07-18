@@ -25,13 +25,13 @@ class PlayList extends Component {
         this.playListUl.current.scrollTo(0, distance);
       };
     renderPlayList = ()=>{
-        console.log(this.props.playList);
+        // console.log(this.props.playList);
         return this.props.playList.slice(0,40).map((item,index)=>{
 
           if(item){
             return (
                 <li
-                    key={item.id}
+                    key={index}
                     className={this.props.currentIndex == index ?'action':''}
                     onDoubleClick = {()=>{this.props.handleChangeCurrentMusic(item)}}
                 >

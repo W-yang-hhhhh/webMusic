@@ -55,7 +55,8 @@ class Player extends Component {
     }
         
     // static getDerivedStateFromProps (props,state){
-     
+    //   console.log(props,state)
+    //   return{}
     // }
     handleUpdateTime=(e)=>{
       if(this.state.move){
@@ -103,14 +104,15 @@ class Player extends Component {
 
     //改变播放状态
     handleChangePlayingStatus(status){
+      console.log('播放状态',status)
       if(this.props.playList.length==0){
         return ;
       }
       
       this.props.changePlayingStatus(status);
       const audio =this.audio.current;
-    
-      if(status ==PLAYING_STATUS.playing){
+      
+      if(status == PLAYING_STATUS.playing){
         audio.play()
       }else{
         audio.pause()
@@ -144,7 +146,6 @@ class Player extends Component {
     }
     handleShowMusicDetial = () => {
       this.props.toggleShowMusicDetail();
- 
       this.musicDetail.current.displayMusicDetailGetMusicTime(this.state.currentTime);
     }
     componentDidMount=()=>{
@@ -161,11 +162,14 @@ class Player extends Component {
             }
         })
       }
-      // this.volumeChange();
+      //初始化 音量
+      this.volumeChange(this.props.volume);
+      //初始化 播放状态 暂停
+      this.handleChangePlayingStatus(false);
     }
 
     handleShowPlayList = () => {
-      console.log(this.state);
+ 
       this.setState((pervState) => {
        
        return ({
