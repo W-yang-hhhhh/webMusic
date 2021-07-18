@@ -48,10 +48,27 @@
       outline: none;
       cursor: pointer;
       transition: all 0.3s;
-
+    
       &:hover {
         background: $color-theme;
       }
+    }
+    .fileBtn{
+         display: none;
+    //     padding: 7px 10px;
+    //   background: $color-background-opacity;
+    //   color: $color-text;
+    //   font-size: $font-size-x;
+    //   // border: 1px solid $color-text-gray;
+    //   border: none;
+    //   border-radius: 5px;
+    //   outline: none;
+    //   cursor: pointer;
+    //   transition: all 0.3s;
+    
+    //   &:hover {
+    //     background: $color-theme;
+    //   }
     }
   }
 
